@@ -1,0 +1,23 @@
+---
+resources:
+- name: cluster-state
+  type: git
+  source:
+    branch: master
+    password: ((password))
+    uri: https://github.com/JasonMorgan/infra-cluster.git
+    username: ((username))
+
+jobs:
+- name: config-cluster
+  serial: true
+  plan:
+  - get: cluster-state
+    trigger: true
+  - task: provision-cluster
+    file: cluster-state/ci/tasks/provision-cluster.yml
+    params:
+      PKS_CLUSTER: ((PKS_CLUSTER))
+      PKS_USER: ((PKS_USER))
+      PKS_PASSWORD: ((PKS_PASSWORD))
+      PKS_URL: ((PKS_URL))

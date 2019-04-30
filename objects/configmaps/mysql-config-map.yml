@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config-map
+  namespace: planespotter
+data:
+  planespotter-install.sh: |
+    #!/bin/sh
+    # sleep while mysql is starting up
+    while [ -z "$ALIVE" ] || [ "$ALIVE" != 'mysqld is alive' ]
+    do
+      echo "waiting for mysql..."
+      sleep 3
+      ALIVE=`mysqladmin ping --user=root --password=$MYSQL_ROOT_PASSWORD`
+      echo "status: $ALIVE"
+    done
+    echo "MYSQL is alive, checking database..."
+    DBEXIST=`mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e 'show databases;' | grep planespotter`
+    if ! [ -z "$DBEXIST" ]
+    then
+      echo "planespotter db already installed."
+    else 
+      echo "------- MYSQL DATABASE SETUP -------"
+      echo "updating apt-get..."
+      apt-get update
+      echo "apt-get installing curl..."
+      apt-get --assume-yes install curl
+      apt-get --assume-yes install wget
+      apt-get --assume-yes install unzip
+      echo "downloading planespotter scripts..."
+      mkdir ~/planespotter
+      mkdir ~/planespotter/db-install
+      cd ~/planespotter/db-install
+      curl -L -o create-planespotter-db.sh https://github.com/puckpuck/planespotter/raw/master/db-install/create-planespotter-db.sh
+      curl -L -o create-planespotter-db.sql https://github.com/puckpuck/planespotter/raw/master/db-install/create-planespotter-db.sql
+      curl -L -o delete-planespotter-db.sh https://github.com/puckpuck/planespotter/raw/master/db-install/delete-planespotter-db.sh
+      curl -L -o delete-planespotter-db.sql https://github.com/puckpuck/planespotter/raw/master/db-install/delete-planespotter-db.sql
+      echo "creating a new planespotter db"
+      chmod +x create-planespotter-db.sh
+      ./create-planespotter-db.sh
+    fi

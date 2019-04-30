@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: adsb-sync
+  namespace: planespotter
+  labels:
+    app: adsb-sync
+    tier: data-sync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adsb-sync
+  template:
+    metadata:
+      labels:
+        app: adsb-sync
+    spec:
+      containers:
+      - name: adsb-sync
+        image: harbor.gcp.59s.io:443/59s/adsb-sync:0.1.7
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/src/app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: adsb-sync-cfg

@@ -1,0 +1,6 @@
+PKS_CLUSTER: infra
+PKS_USER: ((pks.username))
+PKS_PASSWORD: ((pks.password))
+PKS_URL: https://pks.aws.59s.io
+username: ((git.username))
+password: ((git.password))

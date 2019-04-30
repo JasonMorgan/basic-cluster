@@ -1,0 +1,17 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: jasonmorgan/ps-k8s-worker
+params:
+  PKS_CLUSTER:
+  PKS_USER:
+  PKS_PASSWORD:
+  PKS_URL:
+inputs:
+- name: cluster-state
+run:
+  path: /usr/bin/pwsh
+  args: 
+  - cluster-state/ci/tasks/provision-cluster.ps1

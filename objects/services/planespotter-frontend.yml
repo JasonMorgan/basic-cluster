@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: planespotter
+  name: planespotter-frontend
+  labels:
+    app: planespotter-frontend
+spec:
+  type: LoadBalancer
+  ports:
+    # the port that this service should serve on
+    - port: 80
+  selector:
+    app: planespotter-frontend

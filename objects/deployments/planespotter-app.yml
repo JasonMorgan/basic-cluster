@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: planespotter-app
+  namespace: planespotter
+  labels:
+    app: planespotter
+    tier: app-tier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: planespotter
+  template:
+    metadata:
+      labels:
+        app: planespotter
+    spec:
+      containers:
+      - name: planespotter
+        image: harbor.gcp.59s.io:443/59s/planespotter-app-server:0.1.24
+
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: planespotter-app-cfg
+
+
+
+
+
+
+
