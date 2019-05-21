@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: planespotter
-        image: harbor.gcp.59s.io:443/59s/planespotter-app-server:0.1.24
+        image: harbor.aws.59s.io:443/59s/planespotter-app-server
 
         imagePullPolicy: IfNotPresent
         ports:
