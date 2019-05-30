@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: planespotter-frontend
-        image: harbor.aws.59s.io:443/59s/planespotter-frontend
+        image: harbor.gcp.59s.io:443/59s/planespotter-frontend:1.0.13
         imagePullPolicy: IfNotPresent
         env:
         - name: PLANESPOTTER_API_ENDPOINT
@@ -37,6 +37,7 @@ spec:
             port: 80
           initialDelaySeconds: 60
           periodSeconds: 10
+
 
 
 
