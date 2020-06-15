@@ -1,0 +1,14 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: svc-ingess-ci-web
+spec:
+  rules:
+  - host: ci.run.haas-233.pez.pivotal.io
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: ci-web
+          servicePort: 8080

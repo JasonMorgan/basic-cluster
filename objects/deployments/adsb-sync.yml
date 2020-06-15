@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: adsb-sync
-        image: harbor.gcp.59s.io:443/59s/adsb-sync:0.1.20
+        image: jasonmorgan/adsb-sync
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: config-volume
